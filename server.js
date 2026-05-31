@@ -1,17 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
-// ඔයාගේ Vercel Link එකට පමණක් අවසර දෙන Security කොටස (මෙතන ඔයාගේ ලින්ක් එක තියෙනවා)
-app.use(cors({
-    origin: ['https://hashu-chat-web-ofc.vercel.app', 'http://localhost:3000'],
-    methods: ['GET', 'POST']
-}));
 app.use(express.json());
+// එකම ෆෝල්ඩරයේ තියෙන index.html එක සර්වර් එකෙන් පෙන්නන්න අවසර දීම
+app.use(express.static(path.join(__dirname))); 
 
-// MongoDB කනෙක්ෂන් එක (ඔයාගේ පාස්වර්ඩ් එක මෙතනට දාන්න)
+// MongoDB කනෙක්ෂන් එක (ඔයාගේ පාස්වර්ඩ් එක හරියටම දාන්න)
 const mongoURI = "mongodb+srv://bepigi3013_db_user:lVS7vHg3uhzFjJDG@hashuserver2.wjpqr2x.mongodb.net/?appName=hashuserver2";
 
 mongoose.connect(mongoURI)
@@ -66,4 +63,4 @@ app.get('/messages', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Backend is running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running! Go to http://localhost:${PORT}`));
