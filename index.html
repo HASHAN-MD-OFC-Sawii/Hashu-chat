@@ -3,36 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hashu Chat | Single File Version</title>
+    <title>Hashu Chat | Elite Serverless</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #050505; color: #fff; font-family: sans-serif; }
+        body { 
+            background-color: #050505; 
+            color: #ffffff; 
+            font-family: 'Space Grotesk', sans-serif; 
+            overflow: hidden; 
+            background-image: radial-gradient(circle at 50% 0%, #1a1a2e 0%, #050505 70%);
+        }
+        
+        /* Elite Glassmorphism */
+        .elite-glass {
+            background: rgba(20, 20, 25, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 24px;
+        }
+        
+        .elite-input {
+            background: rgba(0, 0, 0, 0.5); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            color: #fff; 
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .elite-input:focus {
+            border-color: #60a5fa; 
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.15); 
+            outline: none;
+            background: rgba(10, 10, 15, 0.8);
+        }
+        
+        .elite-btn {
+            background: linear-gradient(135deg, #ffffff 0%, #d1d5db 100%);
+            color: #000; 
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+        }
+        .elite-btn:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(255,255,255,0.2);
+        }
+
+        /* Animations */
+        .scale-in { animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .slide-up-fade { animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        
+        @keyframes scaleIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes slideUpFade {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(-30px); visibility: hidden; }
+        }
+
+        /* Message Bubbles */
+        .msg-me {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            border-radius: 20px 20px 4px 20px;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+        .msg-other {
+            background: rgba(30, 30, 35, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px 20px 20px 4px;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
     </style>
 </head>
-<body class="flex flex-col h-screen p-4">
+<body class="flex items-center justify-center h-screen w-screen selection:bg-blue-500 selection:text-white">
 
-    <div id="chatLog" class="flex-1 overflow-y-auto mb-4 p-4 bg-gray-900 rounded-xl space-y-2">
+    <div id="screen1" class="text-center p-8 max-w-md w-full scale-in absolute z-10">
+        <div class="w-20 h-20 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-3xl mx-auto mb-8 flex items-center justify-center shadow-[0_0_40px_rgba(59,130,246,0.4)] animate-pulse">
+            <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+        </div>
+        <h1 class="text-5xl font-bold tracking-tighter mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-500">Hashu Chat</h1>
+        <p class="text-gray-400 mb-10 text-sm font-medium leading-relaxed">Enter the highly secure, ultra-premium communication ecosystem.</p>
+        <button onclick="goToRegister()" class="elite-btn w-full py-4 rounded-2xl font-bold tracking-wide text-lg">Initialize Setup</button>
+    </div>
+
+    <div id="screen2" class="hidden elite-glass p-10 max-w-sm w-full text-center absolute z-20">
+        <div class="mb-10">
+            <h2 class="text-3xl font-bold text-white mb-2">Identify</h2>
+            <p class="text-blue-400 text-xs font-semibold tracking-widest uppercase">Secure Connection</p>
+        </div>
+        <div class="space-y-5 mb-10">
+            <input id="userName" placeholder="Full Name" autocomplete="off" class="elite-input w-full p-4 rounded-xl text-md">
+            <input id="userPhone" placeholder="Phone Number" autocomplete="off" class="elite-input w-full p-4 rounded-xl text-md">
+        </div>
+        <button id="regBtn" onclick="registerUser()" class="elite-btn w-full py-4 rounded-xl font-bold text-lg">Connect to Server</button>
+    </div>
+
+    <div id="screen3" class="hidden w-full h-full flex flex-col md:flex-row absolute z-30">
+        
+        <div class="w-full md:w-[350px] border-r border-white/10 bg-black/40 backdrop-blur-3xl flex flex-col">
+            <div class="p-8 border-b border-white/5 flex items-center gap-4">
+                <div class="w-12 h-12 bg-gradient-to-tr from-blue-600 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">H</div>
+                <div>
+                    <h2 class="font-bold text-lg text-white tracking-wide">Hashu Matrix</h2>
+                    <p class="text-[10px] text-cyan-400 font-bold uppercase tracking-widest mt-1 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span> Direct API Link
+                    </p>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto p-6">
+                <div class="p-5 elite-glass cursor-pointer border-blue-500/30 border">
+                    <p class="font-bold text-md text-white">Global Server</p>
+                    <p class="text-xs text-gray-400 mt-1">100% Serverless transmission</p>
+                </div>
+            </div>
         </div>
 
-    <div class="flex gap-2">
-        <input id="userName" placeholder="Your Name" class="p-3 bg-gray-800 rounded-lg w-1/4 text-white">
-        <input id="chatInput" placeholder="Message..." class="p-3 bg-gray-800 rounded-lg flex-1 text-white">
-        <button onclick="sendMessage()" class="p-3 bg-blue-600 rounded-lg font-bold">Send</button>
+        <div class="flex-1 flex flex-col bg-transparent relative">
+            <div class="p-6 border-b border-white/5 backdrop-blur-xl bg-black/50 z-10 sticky top-0 flex justify-between items-center px-8">
+                <h3 class="font-bold text-white text-lg tracking-wide">Global Server</h3>
+                <div class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-bold uppercase tracking-wider border border-green-500/30">Online</div>
+            </div>
+            
+            <div id="chatLog" class="flex-1 overflow-y-auto p-8 space-y-6"></div>
+
+            <div class="p-6 border-t border-white/5 backdrop-blur-xl bg-black/50">
+                <div class="flex gap-4 max-w-5xl mx-auto relative">
+                    <input id="chatInput" placeholder="Transmit message..." class="elite-input flex-1 p-5 rounded-2xl text-md" onkeypress="handleEnter(event)">
+                    <button onclick="sendMessage()" class="elite-btn px-10 rounded-2xl font-bold text-md">Send</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // මේක තමයි ඔයාගේ MongoDB Data API එකේ විස්තර දාන්න ඕන තැන
+        // ======================================================================
+        // අනිවාර්යයි: පහත තොරතුරු ඔයාගේ MongoDB Data API එකට අදාළව වෙනස් කරන්න!
+        // ======================================================================
         const DATA_API_URL = "https://data.mongodb-api.com/app/YOUR_APP_ID/endpoint/data/v1"; 
         const API_KEY = "YOUR_API_KEY_HERE"; 
         const CLUSTER_NAME = "hashuserver2"; 
         const DB_NAME = "hashubug"; 
+        // ======================================================================
 
+        let currentUserName = "";
+
+        // API Helper Function
         async function mongoFetch(action, collection, payload) {
             return await fetch(`${DATA_API_URL}/action/${action}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'api-key': API_KEY
+                    'api-key': API_KEY,
+                    'Access-Control-Request-Headers': '*'
                 },
                 body: JSON.stringify({
                     dataSource: CLUSTER_NAME,
@@ -43,30 +170,108 @@
             });
         }
 
-        async function sendMessage() {
+        function goToRegister() {
+            const s1 = document.getElementById('screen1');
+            const s2 = document.getElementById('screen2');
+            s1.classList.remove('scale-in');
+            s1.classList.add('slide-up-fade');
+            setTimeout(() => {
+                s1.classList.add('hidden');
+                s2.classList.remove('hidden');
+                s2.classList.add('scale-in');
+            }, 500);
+        }
+
+        async function registerUser() {
             const name = document.getElementById('userName').value.trim();
-            const text = document.getElementById('chatInput').value.trim();
-            if (!name || !text) return alert("Name and Message required!");
+            const phone = document.getElementById('userPhone').value.trim();
+            const btn = document.getElementById('regBtn');
+
+            if (!name || !phone) {
+                alert("Please complete identity verification.");
+                return;
+            }
+
+            currentUserName = name;
+            btn.innerHTML = "Authenticating DB...";
+            btn.classList.add('opacity-50', 'cursor-not-allowed');
+
+            try {
+                // සෘජුවම MongoDB 'Users' Collection එකට දත්ත යැවීම
+                await mongoFetch('insertOne', 'Users', {
+                    document: { name, phone, joinedAt: new Date() }
+                });
+
+                const s2 = document.getElementById('screen2');
+                const s3 = document.getElementById('screen3');
+                s2.classList.remove('scale-in');
+                s2.classList.add('slide-up-fade');
+
+                setTimeout(() => {
+                    s2.classList.add('hidden');
+                    s3.classList.remove('hidden');
+                    s3.classList.add('scale-in');
+                    loadMessages();
+                    setInterval(loadMessages, 3000); // Live Reload
+                }, 500);
+
+            } catch (error) {
+                btn.innerHTML = "Connect to Server";
+                btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                alert("Database Connection Failed. Did you setup the API Key?");
+                console.error(error);
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = ""; 
             
-            document.getElementById('chatInput').value = "";
-            
-            await mongoFetch('insertOne', 'Chats', {
-                document: { name, text, timestamp: new Date() }
-            });
-            loadMessages();
+            try {
+                // සෘජුවම MongoDB 'Chats' Collection එකට මැසේජ් එක යැවීම
+                await mongoFetch('insertOne', 'Chats', {
+                    document: { name: currentUserName, text: text, timestamp: new Date() }
+                });
+                loadMessages();
+            } catch (error) {
+                console.error("Failed to transmit", error);
+            }
+        }
+
+        function handleEnter(e) {
+            if (e.key === 'Enter') sendMessage();
         }
 
         async function loadMessages() {
-            const res = await mongoFetch('find', 'Chats', { sort: { timestamp: 1 } });
-            const data = await res.json();
-            const chatLog = document.getElementById('chatLog');
-            chatLog.innerHTML = (data.documents || []).map(msg => 
-                `<div><b class="text-blue-400">${msg.name}:</b> ${msg.text}</div>`
-            ).join('');
+            try {
+                // සෘජුවම MongoDB එකෙන් මැසේජ් ලබා ගැනීම
+                const res = await mongoFetch('find', 'Chats', {
+                    sort: { timestamp: 1 }
+                });
+                
+                const data = await res.json();
+                const messages = data.documents || [];
+                const chatLog = document.getElementById('chatLog');
+                
+                chatLog.innerHTML = messages.map(msg => {
+                    const isMe = msg.name === currentUserName;
+                    return `
+                        <div class="flex ${isMe ? 'justify-end' : 'justify-start'}">
+                            <div class="max-w-[75%] px-6 py-4 text-sm leading-relaxed ${isMe ? 'msg-me text-white' : 'msg-other text-gray-200'}">
+                                ${!isMe ? `<div class="text-[10px] text-blue-400 mb-1.5 font-bold uppercase tracking-wider">${msg.name}</div>` : ''}
+                                ${msg.text}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                chatLog.scrollTop = chatLog.scrollHeight;
+            } catch (error) {
+                console.error("Signal lost", error);
+            }
         }
-
-        setInterval(loadMessages, 3000);
-        loadMessages();
     </script>
 </body>
-</html>
+                </html>
